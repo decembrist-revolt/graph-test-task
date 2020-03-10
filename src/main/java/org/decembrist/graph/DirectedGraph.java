@@ -1,6 +1,7 @@
 package org.decembrist.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -56,6 +57,12 @@ public class DirectedGraph<T> implements Graph<T> {
 	public List<Vertex<T>> getPath(Vertex<T> vertex1, Vertex<T> vertex2) {
 		final var defaultVertex1 = ensureInGraph(vertex1);
 		final var defaultVertex2 = ensureInGraph(vertex2);
+		if (vertex1.equals(vertex2)) {
+			return Collections.singletonList(vertex1);
+		}
+		if (defaultVertex1.connected.size() == 0) {
+			return Collections.emptyList();
+		}
 		final var path = walkVertices(defaultVertex1, defaultVertex2);
 		return new ArrayList<>(path);
 	}

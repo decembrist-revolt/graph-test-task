@@ -2,6 +2,7 @@ package org.decembrist.graph;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -134,6 +135,23 @@ public class DirectedGraphTest {
 				.map(Vertex::getItem)
 				.collect(Collectors.joining(" -> "));
 		assertEquals("test5 -> test4 -> test2 -> test1", pathString);
+	}
+
+	@Test
+	public void getPathSelfTest() {
+		final var directedGraph = new DirectedGraph<String>();
+		final var testVertex1 = directedGraph.addVertex("test1");
+		final var path = directedGraph.getPath(testVertex1, testVertex1);
+		assertEquals(1, path.size());
+	}
+
+	@Test
+	public void getPathNotConnectedTest() {
+		final var directedGraph = new DirectedGraph<String>();
+		final var testVertex1 = directedGraph.addVertex("test1");
+		final var testVertex2 = directedGraph.addVertex("test2");
+		final var path = directedGraph.getPath(testVertex1, testVertex2);
+		assertEquals(0, path.size());
 	}
 
 }
